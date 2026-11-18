@@ -12,7 +12,9 @@
   "dependencies": {
     "firebase": "^12.19.0",
     "react": "^19.2.8",
-    "react-dom": "^19.2.8"
+    "react-dom": "^19.2.8",
+    "react-router": "^7.18.5",
+    "react-router-dom": "^7.18.5"
   },
   "devDependencies": {
     "@babel/core": "^7.29.7",

@@ -1,24 +1,14 @@
 /*NON-SELECTORS*/
 
-@media (min-width: 300px) {
-    nav, figure>picture>img{
-        min-width: 100px;
-        width: 100%;
-    }
-}
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Xmind:ital,wght@0,100..900;1,100..900&display=swap');
 
-@media (max-width: 400px) {
-    .title {
-        width: 100%;
-        font-size: 1.5rem;
+@keyframes slide {
+    0% {
+        transform: translateX(-25%);
     }
-}
 
-@media (prefers-reduced-motion: reduce) {
-    #classgrid>.class-card,
-    #classgrid .dropdown,
-    #classgrid>.class-card .material-symbols-outlined {
-        transition: none;
+    100% {
+        transform: translateX(25%);
     }
 }
 
@@ -27,7 +17,65 @@
     --secondary-color: #610e03;
     --background-color: #333333;
     --text-color: #ffffff;
+    --surface-color: #ffffff;
+    --surface-hover: #f0f0f0;
+    --border-color: #1a1a1a;
+    --content-bg:#8d0b0b47;
+    --content-black:#000000b9;
+    --content-white:#ffffffaf;
+    --content-gradient:linear-gradient(to right bottom, var(--primary-color), var(--secondary-color));
 }
+
+:root[data-theme='dark'] {
+    --primary-color: #ef6262;
+    --secondary-color: #651d24;
+    --background-color: #151a18;
+    --text-color: #f1f4f2;
+    --surface-color: #222725;
+    --surface-hover: #383f3c;
+    --border-color: #48514d;
+    --content-bg: #ef626238;
+    --content-black: #00000080;
+    --content-white: #222725ed;
+    --content-gradient: linear-gradient(to right bottom, var(--primary-color), var(--secondary-color));
+}
+
+/*MATERIALS AND ICONS*/
+.material-symbols-outlined {
+    font-family: 'Material Symbols Outlined';
+    font-weight: normal;
+    font-style: normal;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    white-space: nowrap;
+    direction: ltr;
+    -webkit-font-feature-settings: 'liga';
+    font-feature-settings: 'liga';
+    -webkit-font-smoothing: antialiased;
+    font-variation-settings:
+        'FILL' 0,
+        'wght' 700,
+        'GRAD' 200,
+        'opsz' 24
+}
+
+#classgrid .material-symbols-outlined {
+    padding: 5%;
+    transform: rotate(270deg);
+    transition: transform 180ms ease;
+}
+
+#classgrid>.class-card.is-open .material-symbols-outlined {
+    transform: rotate(0deg);
+}
+
+@media (hover: hover) and (pointer: fine) {
+    #classgrid>.class-card:hover .material-symbols-outlined {
+        transform: rotate(0deg);
+    }
+}
+
 
 /*GENERAL TAGS*/
 
@@ -41,16 +89,15 @@ body {
     font-style: normal;
     min-height: 100vh;
     width: 100%;
+    overflow-x:hidden;
 }
 
 html {
     font-family: Lato, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background-color: var(--text-color);
-}
-
-html {
+    background-color: var(--surface-color);
+    scroll-behavior: smooth;
     line-height: 1.15;
     -webkit-text-size-adjust: 100%;
 }
@@ -60,29 +107,11 @@ html {
     pointer-events: none;
 }
 
-main {
-    box-sizing: border-box;
-    width: 100%;
-    padding: 0 20px 48px;
-}
-
-main>section+section {
-    margin-top: 4rem;
-}
-
-h2,
-p {
-    margin: 1rem;
-}
-
-h1 {
-    margin: 0.3rem;
-}
-
 /*NAVBAR SELECTORS*/
 
 nav {
-    position: fixed;
+    position: sticky;
+    top: 0;
     z-index: 100;
     width: 100%;
     text-align: center;
@@ -90,19 +119,20 @@ nav {
     margin: 0 auto;
 }
 
-ul {
+nav ul {
     list-style-type: none;
     margin: 0;
     overflow: hidden;
     background-color: var(--background-color);
 }
 
-ul li {
-    padding-right: 10px;
+nav ul li {
     float: left;
+    width: fit-content;
+    font-size: 15px;
 }
 
-ul>li>a {
+nav ul>li>a {
     display: block;
     position: relative;
     color: var(--text-color);
@@ -112,16 +142,53 @@ ul>li>a {
     isolation: isolate;
 }
 
-#name {
-    padding: 0.6rem 20px;
+.theme-control button {
+    display: block;
+    position: relative;
+    isolation: isolate;
+    min-height: 100%;
+    padding: 1rem 20px;
+    border: 0;
+    border-radius: 0;
+    color: var(--text-color);
+    background: transparent;
+    cursor: pointer;
 }
 
-ul li a::before {
+.theme-control button::before {
     content: "";
     position: absolute;
     z-index: -1;
     inset: 0;
-    background: linear-gradient(to right bottom, var(--primary-color), var(--secondary-color));
+    background: var(--content-gradient);
+    opacity: 0;
+    transition: opacity 0.25s ease;
+}
+
+.theme-control button:hover::before,
+.theme-control button:focus-visible::before {
+    opacity: 1;
+}
+
+.theme-control button:focus-visible {
+    outline: 2px solid var(--text-color);
+    outline-offset: -4px;
+}
+
+#name {
+    padding: 0.45rem;
+    left: 15px;
+    position: absolute;
+    transition: text-shadow 0.35s !important;
+    font-size: 18px;
+}
+
+nav ul li a::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    background: var(--content-gradient);
     opacity: 0;
     transition: opacity 0.25s ease;
 }
@@ -130,7 +197,26 @@ ul li a:hover::before {
     opacity: 1;
 }
 
+/*LISTS*/
+ul {
+    letter-spacing: 0;
+    color: var(--color-ink);
+    list-style: circle;
+    list-style-position: inside;
+    text-align: center;
+    padding-right: 50px;
+}
+
 /*TITLE SELECTORS*/
+h2,
+p {
+    margin: 1rem;
+    text-align: left;
+}
+
+h1 {
+    margin: 0.3rem;
+}
 
 .title {
     position: relative;
@@ -145,14 +231,29 @@ ul li a:hover::before {
     letter-spacing: 0.5rem;
     word-spacing: 1rem;
     border: 0;
-    background: var(--text-color);
+    background: none;
 }
 
-.title hr {
-    width: min(600px, 90vw);
+.title-heading {
+    width: max-content;
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+.title-heading h1 {
+    box-sizing: border-box;
+    width: fit-content;
+    max-width: 100%;
+    padding-inline: 50px;
+    margin: 0.3rem auto;
+}
+
+hr{
+    box-sizing: border-box;
+    width: 100%;
     height: 5px;
     border: none;
-    background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+    background: var(--content-gradient);
     transform: skew(50deg);
 }
 
@@ -174,25 +275,45 @@ h1::after {
 
 /*NAME SELECTORS AND CHILDREN*/
 
+main {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 0 20px 48px;
+}
+
+main>section+section {
+    margin-top: 4rem;
+}
+
+.about-contact {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2rem;
+    width: min(100%, 1000px);
+    margin: 4rem auto 0;
+}
+
+.about-contact .title {
+    width: 100%;
+}
+
+section {
+    scroll-margin-top: 4rem;
+}
+
 .name>div>span,
 .name>div>i {
-    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+    background: var(--content-gradient);
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-stroke: 0.2rem transparent;
     color: var(--text-color);
 }
-
 #name {
     display: inline-block;
     opacity: 1;
     transition: opacity 0.18s ease, transform 0.18s ease;
     line-height: 20px;
-}
-
-#name.is-changing {
-    opacity: 0;
-    transform: translateY(-2px);
 }
 
 .name>div {
@@ -217,7 +338,8 @@ h1::after {
 }
 
 /*TEXT SELECTORS*/
-.title p {
+.title p,
+li {
     font-weight: 100;
     word-spacing: 0px;
     letter-spacing: 0px;
@@ -227,18 +349,20 @@ h1::after {
 #classgrid {
     display: flex;
     flex-wrap: wrap;
+    align-items: flex-start;
     justify-content: center;
     gap: 20px;
     width: 100%;
+    padding: none;
     box-sizing: border-box;
-    height:fit-content;
+    height: fit-content;
 }
 
 #classgrid>.class-card {
     position: relative;
     flex: 0 1 300px;
     letter-spacing: 0px;
-    border: 1px solid black;
+    border: 1px solid var(--border-color);
     padding: 10px;
     font-size: 30px;
     text-align: center;
@@ -249,8 +373,18 @@ h1::after {
     overflow-wrap: anywhere;
 }
 
+#classgrid>.class-card:focus-visible {
+    outline: 3px solid var(--primary-color);
+    outline-offset: 3px;
+}
+
+#classgrid>.class-card.is-open {
+    text-shadow: 3px 4px var(--content-black);
+}
+
 #classgrid .dropdown {
     display: grid;
+    border-radius: 10px;
     grid-template-rows: 0fr;
     width: 100%;
     box-sizing: border-box;
@@ -261,10 +395,11 @@ h1::after {
     opacity: 0;
     overflow: hidden;
     pointer-events: none;
-    transition: grid-template-rows 220ms ease, opacity 220ms ease;
+    background-color: var(--surface-color);
+    transition: grid-template-rows 220ms ease, opacity 220ms ease, text-shadow 1000s ease;
 }
 
-#classgrid>.class-card:hover .dropdown {
+#classgrid>.class-card.is-open .dropdown {
     grid-template-rows: 1fr;
     opacity: 1;
     pointer-events: auto;
@@ -273,19 +408,22 @@ h1::after {
 #classgrid .dropdown ul {
     min-height: 0;
     margin: 0;
-    padding: 6px 0;
+    padding: 6px 6px 2px;
     overflow: hidden;
-    background-color: #fff;
+    background-color: var(--surface-color);
+    text-shadow: none;
 }
 
 #classgrid .dropdown li {
     position: relative;
     float: none;
-    padding: 4px 8px 4px 22px;
-    background-color: #fff;
-    color: #1a1a1a;
+    padding: 4px 4px 4px 20px;
+    background-color: var(--surface-color);
+    color: var(--color-ink);
     font-size: inherit;
     text-align: left;
+    list-style:none;
+    font-weight: 400;
 }
 
 #classgrid .dropdown li::before {
@@ -294,21 +432,29 @@ h1::after {
     left: 8px;
 }
 
-.material-symbols-outlined {
-    transform: rotate(270deg);
-    transition: transform 180ms ease;
-}
-
-#classgrid>.class-card:hover .material-symbols-outlined {
-    transform: rotate(0deg);
-}
-
-#classgrid>.class-card:hover {
-    background: linear-gradient(to right bottom, var(--primary-color), var(--secondary-color));
-    color: white;
+#classgrid>.class-card.is-open {
+    background: var(--content-gradient);
+    color: var(--text-color);
     cursor: pointer;
     transform: translateY(-2px);
-    box-shadow: 0 6px 14px rgba(141, 11, 11, 0.28);
+    box-shadow: 0 6px 14px var(--content-bg);
+}
+
+@media (hover: hover) and (pointer: fine) {
+    #classgrid>.class-card:hover {
+        text-shadow: 3px 4px var(--content-black);
+        background: var(--content-gradient);
+        color: var(--text-color);
+        cursor: pointer;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 14px var(--content-bg);
+    }
+
+    #classgrid>.class-card:hover .dropdown {
+        grid-template-rows: 1fr;
+        opacity: 1;
+        pointer-events: auto;
+    }
 }
 
 /*SECTION CHILDREN HEADER*/
@@ -316,12 +462,11 @@ h1::after {
 video {
     display: block;
     width: 100%;
-    height: 50%;
+    height: auto;
 }
 
 #top {
-    width: calc(100% + 40px);
-    margin-left: -20px;
+    margin-inline: -20px;
 }
 
 #top>div {
@@ -344,6 +489,7 @@ video {
 #top figure,
 #top picture {
     margin: 0;
+    height: 101%;
 }
 
 #top figure>picture>img {
@@ -354,5 +500,292 @@ video {
     padding: 0;
     margin: 0;
     border: 0;
-    filter:none;
+    filter: none;
+}
+
+#account {
+    background-color: var(--surface-color);
+    text-align: center;
+    margin: 0 auto;
+    width: fit-content;
+    padding: 25px;
+    border-radius: 10px;
+    border: 3px solid var(--background-color);
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease height 0.2s ease, width 0.2s ease;
+}
+
+/*FORMS*/
+#form {
+    max-width: 600px;
+    width:500px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+}
+
+button,
+input {
+    font-family: "JetBrains Mono", monospace;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    margin: auto 0;
+    text-align: center;
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+    background-color: var(--surface-color);
+    color: var(--color-ink);
+    font-size: 1rem;
+}
+
+#form form input:not([type="submit"]):focus,
+button:focus {
+    border-color: var(--primary-color);
+    outline-color: var(--primary-color);
+}
+
+button:hover,
+input:hover {
+    background-color: var(--surface-hover);
+}
+
+/*BACKGROUND-ANIMATION*/
+.bg {
+    animation: slide 3s ease-in-out infinite alternate;
+    background-image: linear-gradient(-60deg, var(--primary-color) 50%, var(--surface-color) 50%);
+    bottom: 0;
+    left: -50%;
+    opacity: .5;
+    position: fixed;
+    right: -50%;
+    top: 0;
+    z-index: -1;
+}
+
+.bg2 {
+    animation-direction: alternate-reverse;
+    animation-duration: 4s;
+}
+
+.bg3 {
+    animation-duration: 5s;
+}
+
+.content {
+    background-color: var(--content-white);
+    border-radius: .25em;
+    box-shadow: 0 0 .25em var(--content-black);
+    box-sizing: border-box;
+    left: 50%;
+    padding: 10vmin;
+    position: fixed;
+    text-align: center;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.textIndent {
+    text-indent: 100px;
+}
+
+/*BOTTOM*/
+#bottom {
+    box-sizing: border-box;
+    width: 100%;
+    background: var(--background-color);
+    color: var(--text-color);
+    padding: 10px 15px;
+}
+
+#bottom a {
+    text-decoration: underline;
+    color: var(--text-color);
+}
+
+#bottom ul {
+    list-style: disc;
+    list-style-position: inside;
+    text-align: left;
+    color: var(--text-color);
+}
+
+/*MEDIA QUERIES*/
+@media (max-width: 400px) {
+    .title {
+        width: 100%;
+        font-size: 1.5rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    #classgrid>.class-card,
+    #classgrid .dropdown,
+    #classgrid>.class-card .material-symbols-outlined {
+        transition: none;
+    }
+}
+
+/*IPAD MEDIA QUERIES*/
+@media (max-width: 600px) {
+    nav ul {
+        display: flex;
+        align-items: center;
+        gap: 0;
+        overflow-x: auto;
+        overflow-y: hidden;
+        scrollbar-width: thin;
+        padding: 0;
+    }
+
+    nav ul>header {
+        display: flex;
+        flex: 0 0 auto;
+    }
+
+    nav ul>header .name {
+        float: none;
+        width: auto;
+        margin: 0;
+        padding: 0.65rem 0.5rem;
+    }
+
+    nav ul>li {
+        float: none;
+        flex: 0 0 auto;
+        width: auto;
+        min-width: 0;
+    }
+
+    nav ul>li>a {
+        display: flex;
+        min-height: 44px;
+        box-sizing: border-box;
+        align-items: center;
+        justify-content: center;
+        padding: 0.65rem 0.5rem;
+        font-size: 0.8rem;
+        white-space: nowrap;
+    }
+
+    nav ul>li.theme-control {
+        flex: 0 0 auto;
+    }
+
+    .theme-control button {
+        min-height: 44px;
+        padding: 0.65rem 0.5rem;
+        font-size: 0.8rem;
+        white-space: nowrap;
+    }
+
+    #name {
+        position: static;
+        padding: 0;
+        font-size: 0.85rem;
+    }
+
+    main {
+        padding: 0 12px 32px;
+    }
+
+    #top {
+        margin-inline: -12px;
+    }
+
+    .title {
+        width: 100%;
+        padding-inline: 0.25rem;
+        letter-spacing: 0.1rem;
+        word-spacing: 0;
+        transform: none;
+    }
+
+    .title-heading {
+        width: 100%;
+    }
+
+    .title-heading h1 {
+        width: 100%;
+        padding-inline: 0;
+    }
+
+    h1::after {
+        font-size: clamp(1.25rem, 6vw, 2rem);
+        line-height: 1.2;
+    }
+
+    .title-body {
+        transform: none;
+    }
+
+    .about-contact {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        width: 100%;
+        margin-top: 2.5rem;
+    }
+
+    #classgrid {
+        gap: 12px;
+    }
+
+    #classgrid>.class-card {
+        flex-basis: 100%;
+        width: 100%;
+        height: auto;
+        padding: 0.75rem;
+        font-size: clamp(1.25rem, 5vw, 1.75rem);
+    }
+
+    #classgrid .dropdown {
+        font-size: 0.95rem;
+    }
+
+    #account {
+        box-sizing: border-box;
+        width: 100%;
+        max-width: 600px;
+        padding: 1rem;
+    }
+
+    #form {
+        box-sizing: border-box;
+        width: 100%;
+        padding: 0.75rem 0 0;
+    }
+
+    #form form label {
+        display: block;
+    }
+
+    #form form input:not([type="submit"]) {
+        display: block;
+        box-sizing: border-box;
+        width: 100%;
+        margin: 0.35rem 0 0.75rem;
+    }
+
+    #form form input[type="submit"],
+    #form form button {
+        display: block;
+        box-sizing: border-box;
+        width: 100%;
+        margin: 0.5rem 0;
+    }
+
+    #bottom {
+        margin-top: 2rem !important;
+    }
+
+    #bottom ul {
+        padding: 0;
+    }
+}
+
+@media (min-width: 601px) and (max-width: 1024px) {
+    .class-card {
+        height:80px;
+    }
 }

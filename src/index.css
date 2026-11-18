@@ -15,6 +15,10 @@
   --color-green-dark: #1b604a;
   --color-green-pale: #eff5ed;
   --color-orange: #e7a25b;
+  --surface-color: #ffffff;
+  --surface-hover: #f0f0f0;
+  --border-color: #1a1a1a;
+  color-scheme: light;
 
   color: var(--color-ink);
   background: var(--color-paper);
@@ -45,4 +49,25 @@ a {
 ::selection {
   color: var(--color-ink);
   background: #d7e9dd;
+}
+
+:root[data-theme='dark'] {
+  --color-paper: #171b1a;
+  --color-ink: #e7ece9;
+  --color-ink-soft: #d1d9d5;
+  --color-muted: #aab6b0;
+  --color-border: #3d4843;
+  --color-green: #70c4a0;
+  --color-green-dark: #4ea982;
+  --color-green-pale: #263a32;
+  --color-orange: #f0b879;
+  --surface-color: #222725;
+  --surface-hover: #383f3c;
+  --border-color: #48514d;
+  color-scheme: dark;
+}
+
+:root[data-theme='dark'] ::selection {
+  color: #171b1a;
+  background: #8bc9aa;
 }
