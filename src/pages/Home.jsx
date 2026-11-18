@@ -1,5 +1,7 @@
 import '../styles/App.css'
 import { Link } from 'react-router-dom'
+import brightnessIcon from '../assets/brightness.svg'
+import moonIcon from '../assets/moon.svg'
 
 const classes = [
   {
@@ -73,8 +75,13 @@ function Home({ isDark, onToggleTheme }) {
       <li><a href="#top">Front Page</a></li>
       <li><a href="#bottom">Resources</a></li>
       <li className="theme-control">
-        <button type="button" aria-pressed={isDark} onClick={onToggleTheme}>
-          {isDark ? 'Light mode' : 'Dark mode'}
+        <button
+          type="button"
+          aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+          aria-pressed={isDark}
+          onClick={onToggleTheme}
+        >
+          <img src={isDark ? brightnessIcon : moonIcon} alt="" />
         </button>
       </li>
     </ul>

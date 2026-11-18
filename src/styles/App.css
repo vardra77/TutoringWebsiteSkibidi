@@ -30,7 +30,7 @@
     --primary-color: #ef6262;
     --secondary-color: #651d24;
     --background-color: #151a18;
-    --text-color: #f1f4f2;
+    --text-color: #131313;
     --surface-color: #222725;
     --surface-hover: #383f3c;
     --border-color: #48514d;
@@ -132,6 +132,10 @@ nav ul li {
     font-size: 15px;
 }
 
+nav ul>li.theme-control {
+    float: right;
+}
+
 nav ul>li>a {
     display: block;
     position: relative;
@@ -153,6 +157,12 @@ nav ul>li>a {
     color: var(--text-color);
     background: transparent;
     cursor: pointer;
+}
+
+.theme-control button img {
+    display: block;
+    width: 24px;
+    height: 24px;
 }
 
 .theme-control button::before {
@@ -521,6 +531,7 @@ video {
     margin: 0 auto;
     padding: 20px;
     text-align: center;
+    background:var(--text-color);
 }
 
 button,
@@ -671,6 +682,7 @@ input:hover {
 
     nav ul>li.theme-control {
         flex: 0 0 auto;
+        margin-left: auto;
     }
 
     .theme-control button {
@@ -754,6 +766,7 @@ input:hover {
         box-sizing: border-box;
         width: 100%;
         padding: 0.75rem 0 0;
+        background:var(--text-color);
     }
 
     #form form label {

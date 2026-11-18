@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import brightnessIcon from '../assets/brightness.svg'
+import moonIcon from '../assets/moon.svg'
 import '../styles/App.css'
 
 export default function Onboarding({ mode = 'login', isDark, onToggleTheme }) {
@@ -32,8 +34,13 @@ export default function Onboarding({ mode = 'login', isDark, onToggleTheme }) {
           <li><Link to="/">Front Page</Link></li>
           <li><Link to="/#bottom">Resources</Link></li>
           <li className="theme-control">
-            <button type="button" aria-pressed={isDark} onClick={onToggleTheme}>
-              {isDark ? 'Light mode' : 'Dark mode'}
+            <button
+              type="button"
+              aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+              aria-pressed={isDark}
+              onClick={onToggleTheme}
+            >
+              <img src={isDark ? brightnessIcon : moonIcon} alt="" />
             </button>
           </li>
         </ul>
